@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.mplconfig/
+*.py[cod]
+.DS_Store
+Thumbs.db
+outputs/
+outputs_*/
+*.joblib
+github-ready.zip
+manuscript_review/
+figures-preview.zip
+spyder-ready.zip
+outputs_spyder/
