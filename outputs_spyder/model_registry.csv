@@ -1,0 +1,32 @@
+Model,Name,Facies,Regression,Notes
+1,Fine DT,True,True,Classifier and regression counterpart
+2,Medium DT,True,True,Classifier and regression counterpart
+3,Coarse DT,True,True,Classifier and regression counterpart
+4,Linear DA,True,False,No direct regression equivalent
+5,Quadratic DA,True,False,No direct regression equivalent
+6,Gaussian NB,True,False,No direct regression equivalent
+7,Kernel NB,True,False,No direct regression equivalent
+8,Linear SVM,True,True,Classifier and regression counterpart
+9,Quadratic SVM,True,True,Classifier and regression counterpart
+10,Cubic SVM,True,True,Classifier and regression counterpart
+11,Fine Gaussian SVM,True,True,Classifier and regression counterpart
+12,Medium Gaussian SVM,True,True,Classifier and regression counterpart
+13,Coarse Gaussian SVM,True,True,Classifier and regression counterpart
+14,Fine KNN,True,True,Classifier and regression counterpart
+15,Medium KNN,True,True,Classifier and regression counterpart
+16,Coarse KNN,True,True,Classifier and regression counterpart
+17,Cosine KNN,True,True,Classifier and regression counterpart
+18,Cubic KNN,True,True,Classifier and regression counterpart
+19,Weighted KNN,True,True,Classifier and regression counterpart
+20,Boosted Tree EC,True,True,Classifier and regression counterpart
+21,Bagged Tree EC,True,True,Classifier and regression counterpart
+22,Subspace Discriminant EC,True,False,No direct regression equivalent
+23,Subspace KNN EC,True,True,Classifier and regression counterpart
+24,RUS Boosted Tree EC,True,False,No direct regression equivalent
+25,Squared exponential GP,True,True,Classifier and regression counterpart
+26,LR,False,True,"Regression only; continuous targets, not facies codes"
+27,Robust linear,False,True,"Regression only; continuous targets, not facies codes"
+28,Interaction linear,False,True,"Regression only; continuous targets, not facies codes"
+29,Matern GP,False,True,"Regression only; continuous targets, not facies codes"
+30,Rational quadratic GP,False,True,"Regression only; continuous targets, not facies codes"
+31,Exponential GP,False,True,"Regression only; continuous targets, not facies codes"

@@ -1,0 +1,31 @@
+{
+  "seed": 42,
+  "samples_per_well": 360,
+  "development_wells": [
+    "Well_1",
+    "Well_2",
+    "Well_3"
+  ],
+  "application_wells": [
+    "Well_4",
+    "Well_5"
+  ],
+  "gp_training_cap": 240,
+  "features": [
+    "DT",
+    "GR",
+    "NPHI",
+    "RHOB",
+    "LogRT"
+  ],
+  "python": "3.12.14",
+  "sklearn": "1.7.2",
+  "selected": {
+    "Facies": 4,
+    "Porosity": 26,
+    "Permeability": 13
+  },
+  "runtime_seconds": 19.61,
+  "warning_count": 0,
+  "synthetic": true
+}
