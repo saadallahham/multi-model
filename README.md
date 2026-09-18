@@ -30,16 +30,8 @@ No manuscript file, API key or external dataset is needed.
 
 You can inspect the saved results before installing Python:
 
-- [Synthetic datasets](outputs_spyder/data/): separate logs and laboratory CSVs for all five wells.
-- [Numbered manuscript figures](outputs_spyder/manuscript_figures/): 19 figures in PNG and PDF.
-- [Supplementary figures](outputs_spyder/figures/): model comparisons and depth tracks for both test wells.
-- [Results summary](outputs_spyder/RESULTS.md): selected models and held-out scores.
-- [Metrics](outputs_spyder/metrics.csv): scores for every evaluated model and well.
 - [Figure guide](FIGURE_GUIDE.md): correspondence to manuscript figures and documented adaptations.
 
-After downloading the repository, open
-`outputs_spyder/manuscript_figures/index.html` in your browser to view the figure
-gallery. GitHub shows the HTML source rather than running this gallery.
 
 ## 3. Install the requirements
 
