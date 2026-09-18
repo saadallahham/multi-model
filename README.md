@@ -1,220 +1,236 @@
-# Synthetic five-well manuscript reproduction
+# Synthetic well logs and laboratory data
 
-**Spyder users:** open `spyder_run_all.py` and run the whole file. See
-[SPYDER_README.md](SPYDER_README.md) for setup and the other Spyder entry scripts.
+This repository provides a reproducible Python example for predicting carbonate
+facies, porosity and permeability from well logs. It generates five synthetic
+wells, develops models using Wells 1–3, and evaluates them on held-out Wells 4–5.
+You can run the project in Spyder or from a terminal.
 
-Recreates all **19 manuscript figure types** with synthetic data (Figures 1–2 are
-conceptual geological schematics), plus 14 supplementary plots. See
-[FIGURE_GUIDE.md](FIGURE_GUIDE.md) for the figure-by-figure correspondence and
-documented adaptations. Open `outputs/manuscript_figures/index.html` after a run.
+The repository includes generated CSV data, fitted example models, evaluation
+results, 19 numbered manuscript figure types and 14 supplementary plots.
+**All data are synthetic.** Figures 1–2 are conceptual geological schematics;
+the other figures are computed from synthetic data and model predictions.
+They do not reproduce the manuscript's original measurements or numerical scores.
 
-Runnable Python code and generated results for synthetic carbonate well logs and
-laboratory facies, porosity, and permeability. Includes comparison charts,
-confusion matrices, correlation heatmaps, and depth tracks with computed scores.
+## 1. Download the project
 
-## Use on GitHub
+On this repository's main page, select **Code → Download ZIP**, then extract the
+ZIP to a folder on your computer. Keep all Python files together. Do not run the
+scripts from inside the ZIP archive.
 
-Upload this project's source files and the `.github/workflows/` and `tests/`
-folders to your repository. If using `github-ready.zip`, extract it first and
-upload its contents, including the hidden `.github` folder and `.gitignore`.
-The ZIP itself is a download bundle, not the runnable repository structure.
-
-The included GitHub Actions workflow runs the experiment and all tests on Linux
-and Windows with Python 3.12 after pushes and pull requests. To run it manually,
-open **Actions → Run five-well experiment → Run workflow** after the workflow is
-on the default branch. Download the `five-well-results-...` artifact from a
-completed run to obtain synthetic datasets, figures, metrics, and fitted models.
-GitHub Actions must be enabled for the repository.
-
-For interactive use in a GitHub Codespaces terminal:
+Alternatively, clone the repository:
 
 ```bash
-python -m pip install -r requirements.txt
-python run_experiment.py
-python apply_models.py
-python -m unittest discover -s tests -v
+git clone https://github.com/saadallahham/synthetic-well-logs.git
+cd synthetic-well-logs
 ```
 
-Generated outputs and local virtual environments are excluded by `.gitignore`;
-the scripts regenerate everything. No account credentials or API keys are needed.
-The workflow follows the [GitHub Python workflow documentation](https://docs.github.com/en/actions/tutorials/build-and-test-code/python).
+No manuscript file, API key or external dataset is needed.
 
-## Quick start
+## 2. Explore the included data and figures
 
-Python 3.11 or 3.12 is recommended. In this project folder:
+You can inspect the saved results before installing Python:
+
+- [Synthetic datasets](outputs_spyder/data/): separate logs and laboratory CSVs for all five wells.
+- [Numbered manuscript figures](outputs_spyder/manuscript_figures/): 19 figures in PNG and PDF.
+- [Supplementary figures](outputs_spyder/figures/): model comparisons and depth tracks for both test wells.
+- [Results summary](outputs_spyder/RESULTS.md): selected models and held-out scores.
+- [Metrics](outputs_spyder/metrics.csv): scores for every evaluated model and well.
+- [Figure guide](FIGURE_GUIDE.md): correspondence to manuscript figures and documented adaptations.
+
+After downloading the repository, open
+`outputs_spyder/manuscript_figures/index.html` in your browser to view the figure
+gallery. GitHub shows the HTML source rather than running this gallery.
+
+## 3. Install the requirements
+
+Use **Python 3.11 or 3.12**. The pinned machine-learning dependencies are listed
+in `requirements.txt`. Install them in the same environment that runs the code.
+
+### If you use Spyder
+
+Open Spyder's IPython console and run the following once. Replace the example
+path with the location of your extracted project:
+
+```python
+import sys
+import subprocess
+subprocess.check_call([
+    sys.executable, "-m", "pip", "install", "-r",
+    r"C:\path\to\synthetic-well-logs-main\requirements.txt"
+])
+```
+
+Restart the Spyder kernel after installing the packages. Spyder itself is a
+separate application and is not installed by `requirements.txt`.
+
+### If you use a terminal
+
+Open a terminal in the extracted project folder. On Windows PowerShell:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe run_experiment.py
-.\.venv\Scripts\python.exe apply_models.py
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Install Python first if the `python` command is unavailable. On macOS/Linux:
+On macOS or Linux:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python run_experiment.py
-.venv/bin/python apply_models.py
-.venv/bin/python -m unittest discover -s tests -v
 ```
 
-Larger example (exact Gaussian processes are capped to control runtime):
+The terminal workflow writes to `outputs/` by default. The Spyder workflow below
+writes to `outputs_spyder/`. These folders have the same result structure.
 
-```powershell
-.\.venv\Scripts\python.exe run_experiment.py --samples 1400 --seed 42 --gp-max 500 --output outputs_large
+## 4. Run the complete experiment in Spyder
+
+1. Open **spyder_run_all.py** in Spyder.
+2. Edit the settings at the top if necessary.
+3. Run the **whole file** using F5 or the Run button.
+4. Inspect the printed progress and the generated browser gallery.
+5. Open the DataFrames in Variable Explorer to inspect data and results.
+
+The main script generates data, validates models within the three training wells,
+selects models, fits them on those three wells, evaluates the two test wells,
+saves predictions and creates all figures. It finds its files relative to the
+script location, regardless of Spyder's current working directory.
+
+| Setting | Default | Meaning |
+|---|---:|---|
+| `SAMPLES_PER_WELL` | 360 | Depth samples per well; minimum 120 |
+| `RANDOM_SEED` | 42 | Nonnegative seed for reproducibility |
+| `GP_MAX_TRAINING_ROWS` | 240 | Training-row cap for Gaussian processes; minimum 40 |
+| `OUTPUT_FOLDER` | `outputs_spyder` | Relative to the script, or an absolute folder path |
+| `OPEN_FIGURE_GALLERY` | `True` | Open the HTML gallery when the run finishes |
+
+With the default settings, the generator creates **1,800 rows across five wells**.
+Increasing the Gaussian-process cap can substantially increase runtime. Running
+again in the same output folder replaces generated results; choose a new
+`OUTPUT_FOLDER` to retain separate runs.
+
+Available variables include `training_data`, `test_logs`, `test_laboratory_data`,
+`test_predictions`, `metrics`, `model_ranking` and `all_predictions`.
+
+## 5. Redraw figures without retraining
+
+In Spyder, open **spyder_redraw_figures.py**, set `OUTPUT_FOLDER` to the existing
+results folder, and run the whole file. This redraws the 19 numbered figures.
+
+From a terminal with the dependencies installed:
+
+```bash
+python manuscript_figures.py --output outputs_spyder
 ```
 
-Defaults: 360 depth samples per well, 1,800 rows overall, seed 42, and at most 240
-training rows for each GP. All other models use all available training rows.
-Increasing `--gp-max` above the development row count disables GP subsampling.
+The PNG and PDF files are saved to `manuscript_figures/` within that output folder.
 
-## Experiment design
+## 6. Apply fitted models to another log CSV
 
-- **Well_1, Well_2, Well_3:** development/testing through three leave-one-well-out
-  folds. Each fold trains on two wells and tests on the remaining entire well.
-- **Well_4, Well_5:** application wells. Selected models are fitted on the three
-  development wells and applied to these two wells. Their synthetic laboratory
-  labels are used only for the final evaluation and illustrations.
-- The facies model is selected by mean development macro-F1; each regression
-  model is selected by mean development R². Ties use the smaller model number.
-- Imputation, feature standardization, and regression-target scaling are fitted
-  within each training fold. No random split of neighboring depth samples is used.
-- Predictors are **DT, GR, NPHI, RHOB, LogRT** only. Neither depth, well name,
-  laboratory measurements, nor facies labels are used as predictors.
-- Permeability is learned in log10 space and inverted to mD for prediction and
-  metrics. Porosity is a fraction (0.20 = 20%), not a numeric percentage.
-- All models are evaluated on the application wells for comparison, but that
-  comparison is not used to select or tune models. Depth tracks show the eight
-  best models ranked using development data only.
+In Spyder, open **spyder_predict_logs.py** and edit `INPUT_CSV`, `MODEL_FOLDER`
+and `OUTPUT_CSV`. Run the whole file. The resulting `predictions` DataFrame is
+available in Variable Explorer.
 
-## Requested models and implementation
+From a terminal:
 
-The list mixes classification and regression. **25 classifiers** predict facies;
-**25 regression models** predict each continuous target. All 31 numbered entries
-are implemented in their appropriate task. DA, NB, subspace DA, and RUSBoost do
-not have direct regression equivalents; they are not applied to continuous labels.
-LR means ordinary linear regression, not logistic regression, and is not used to
-predict arbitrary facies integers.
+```bash
+python apply_models.py --input my_logs.csv --models outputs_spyder/models --output my_predictions.csv
+```
 
-| ID | Requested model | Settings / regression counterpart |
-|---:|---|---|
-| 1 | Fine DT | Up to 101 leaves (100 splits); tree regressor |
-| 2 | Medium DT | Up to 21 leaves; tree regressor |
-| 3 | Coarse DT | Up to 5 leaves; tree regressor |
-| 4 | Linear DA | LDA with automatic shrinkage; classification only |
-| 5 | Quadratic DA | QDA, regularization 0.05; classification only |
-| 6 | Gaussian NB | Gaussian likelihood; classification only |
-| 7 | Kernel NB | Independent Gaussian KDE per feature/class, bandwidth 0.3 after scaling; classification only |
-| 8 | Linear SVM | Linear SVC / SVR, C=1 |
-| 9 | Quadratic SVM | Polynomial degree 2, coef0=1; SVC / SVR |
-| 10 | Cubic SVM | Polynomial degree 3, coef0=1; SVC / SVR |
-| 11 | Fine Gaussian SVM | RBF scale sqrt(P)/4; SVC / SVR |
-| 12 | Medium Gaussian SVM | RBF scale sqrt(P); SVC / SVR |
-| 13 | Coarse Gaussian SVM | RBF scale 4 sqrt(P); SVC / SVR |
-| 14 | Fine KNN | k=1; KNN regressor |
-| 15 | Medium KNN | k=10; KNN regressor |
-| 16 | Coarse KNN | k=100; KNN regressor |
-| 17 | Cosine KNN | k=10, cosine distance; KNN regressor |
-| 18 | Cubic KNN | k=10, Minkowski p=3; KNN regressor |
-| 19 | Weighted KNN | k=10, inverse-square distance weights; KNN regressor |
-| 20 | Boosted Tree EC | 40 SAMME AdaBoost trees, learning rate 0.1; 80 gradient-boosting regression trees, depth 3, rate 0.05 |
-| 21 | Bagged Tree EC | 40 bootstrap decision trees; bagged regression trees |
-| 22 | Subspace Discriminant EC | 30 LDA learners, 3 of 5 features, no row bootstrapping; classification only |
-| 23 | Subspace KNN EC | 30 KNN learners, k=10, 3 of 5 features, no row bootstrapping; subspace KNN regression |
-| 24 | RUS Boosted Tree EC | imbalanced-learn RUSBoost, 40 trees, 21 leaves, learning rate 0.1; classification only |
-| 25 | GP | Gaussian-process classifier / regressor with fixed RBF kernel and training-row cap |
-| 26 | LR | Ordinary least-squares linear regression; continuous targets only |
-| 27 | Robust linear | Huber regression, epsilon 1.35 |
-| 28 | Interaction linear | Pairwise interactions and main effects, ordinary least squares |
-| 29 | Matérn GP | Fixed Matérn kernel, nu=1.5 |
-| 30 | Rational-quadratic GP | Fixed rational-quadratic kernel, alpha=1 |
-| 31 | Exponential GP | Fixed Matérn kernel, nu=0.5 |
+The input CSV must contain the following columns:
 
-`P=5`. The RBF implementation uses `gamma = 1 / (2 * scale**2)`. SVR uses epsilon
-0.05 in standardized target space. GP uses RBF length scale sqrt(P), fixed signal
-variance 1, and regression noise variance 0.05. No kernel optimization is performed.
-GP sampling is stratified by training well and facies and never draws held-out rows.
-
-These are **documented Python approximations** to the named MATLAB-style presets,
-not exact MATLAB reproductions. Multiclass strategies, tree rules, regularization,
-boosting variants, and hyperparameters can differ. No hyperparameter search or
-nested validation is claimed.
-
-## Files and figures
-
-| File | Purpose |
+| Column | Description and units |
 |---|---|
-| `synthetic_data.py` | Reproducible synthetic data with layered facies, well variation and measurement noise |
-| `models.py` | Model registry, kernel NB, inverse-square KNN and preprocessing pipelines |
-| `run_experiment.py` | Cross-well validation, model selection, fitting, scoring and figure generation |
-| `apply_models.py` | Apply saved models to CSV logs without laboratory targets |
-| `manuscript_figures.py` | All 19 numbered manuscript figure types and HTML gallery |
-| `FIGURE_GUIDE.md` | Figure correspondence, model additions and scientific adaptations |
-| `plots.py` | Correlation, confusion matrices, comparisons, point plots and depth tracks |
-| `tests/test_workflow.py` | Mathematical and workflow checks |
+| `Well` | Well identifier |
+| `Depth_m` | Depth in meters; each well/depth pair must be unique |
+| `DT` | Sonic transit time, microseconds per foot |
+| `GR` | Gamma ray, API |
+| `NPHI` | Neutron porosity as a fraction |
+| `RHOB` | Bulk density, g/cm³ |
+| `LogRT` | Base-10 logarithm of resistivity in ohm·m |
 
-After a run, `outputs/` contains:
+For positive resistivity values, calculate `LogRT = np.log10(RT_ohm_m)`.
+Missing predictors may be NaN and are filled using the fitted training medians.
+Laboratory targets are not required for prediction.
 
-- `data/`: separate log and laboratory CSVs for each of the five wells, development
-  data, unlabeled application logs, and separate application evaluation truth.
-- `metrics.csv`: accuracy, balanced accuracy and macro-F1 for facies; R², MSE, RMSE,
-  and MAE in original target units for regression. Each model has one row per well.
-- `predictions_all_models.csv`: out-of-fold development and held-out predictions.
-- `cv_ranking.csv`, `model_registry.csv`, `selected_models.json` and `RESULTS.md`.
-- `application_predictions.csv`: chosen-model predictions for both application wells.
-- `models/`: three selected fitted pipelines, including transformations.
-- `run_manifest.json` and `training_warnings.json`: settings, versions and fit warnings.
-- `manuscript_figures/`: **19 numbered figures in PNG and PDF**, HTML gallery,
-  figure manifest, and facies counts. Figures 1–2 are original conceptual schematics.
-- `figures/`: **14 supplementary figures, each in PNG and vector PDF**:
-  input logs; continuous-variable correlation heatmap; two-well confusion matrices
-  with per-class TP/FN rates; three model comparisons; two laboratory/prediction
-  point comparisons; and six depth-track figures (three targets × two wells).
+The laboratory CSVs contain `Facies`, `Porosity` (fraction), and `Permeability`
+(mD). Facies codes are 0 = mudstone, 1 = packstone/wackestone,
+2 = grainstone/packstone, and 3 = grainstone.
 
-For facies, tracks use accuracy, not R² on class codes. Pearson correlation excludes
-nominal facies codes. Regression comparison figures use R², not an undefined
-“regression accuracy.” All metrics are calculated; reference-image scores are never
-hard-coded. Negative R² values are retained.
+The included fitted models demonstrate the synthetic workflow; they are not
+calibrated for field applications. Only load trusted joblib model files.
 
-## Input schema and application to new logs
+## 7. Understand the training and test split
 
-Required CSV columns: `Well, Depth_m, DT, GR, NPHI, RHOB, LogRT`.
+- **Wells 1–3:** development data. Leave-one-well-out validation trains on two
+  wells and validates on the third, repeating for all three wells.
+- **Wells 4–5:** held-out test data. Their labels are used only for final
+  evaluation and illustrations, not for model selection or preprocessing.
+- Classifiers are selected by mean development macro-F1; regressors by mean
+  development R². Selected models are refitted on all three training wells.
+- Inputs are DT, GR, NPHI, RHOB and LogRT. Depth, well identity, laboratory
+  measurements and facies labels are not predictors.
+- Preprocessing is fitted inside each training fold. Permeability is learned in
+  log10 space; its evaluation metrics are calculated in mD.
 
-| Column | Unit / convention |
+The registry includes **25 classifiers** and **25 regressors for each continuous
+target**. MATLAB-style model names are implemented as documented Python
+approximations. See [FIGURE_GUIDE.md](FIGURE_GUIDE.md) and
+[model_registry.csv](outputs_spyder/model_registry.csv) for details.
+
+Facies scores use accuracy, balanced accuracy and macro-F1. Continuous targets
+use R², MSE, RMSE and MAE. Negative R² values are retained. Geological realism and
+performance on real wells cannot be established from this synthetic experiment.
+
+## 8. Files and outputs
+
+| File or folder | Purpose |
 |---|---|
-| Depth_m | meters, increasing downward |
-| DT | microseconds per foot |
-| GR | API |
-| NPHI | fraction |
-| RHOB | g/cm³ |
-| LogRT | log10 of RT in ohm·m |
-| Porosity | laboratory fraction |
-| Permeability | laboratory mD, strictly positive |
-| Facies | 0=mudstone, 1=packstone/wackestone, 2=grainstone/packstone, 3=grainstone |
+| `spyder_run_all.py` | Main entry point for Spyder users |
+| `spyder_redraw_figures.py` | Regenerate numbered figures |
+| `spyder_predict_logs.py` | Predict from another log CSV |
+| `synthetic_data.py` | Generate reproducible synthetic logs and laboratory data |
+| `models.py` | Model definitions and preprocessing pipelines |
+| `run_experiment.py` | Training, validation, selection and evaluation |
+| `plots.py` | Supplementary figures |
+| `manuscript_figures.py` | Numbered manuscript figures and gallery |
+| `apply_models.py` | Command-line prediction from saved models |
+| `tests/test_workflow.py` | Reproducibility and result verification checks |
+| `outputs_spyder/` | Included demonstration data, figures, models and results |
 
-Log and laboratory rows are co-located at the same depths in this demonstration.
-Real core measurements are usually sparser and require careful depth matching.
-Use `LogRT = np.log10(RT_ohm_m)` for positive resistivity measurements. Missing
-predictors can be NaN and are filled using fitted development medians.
+Inside the output folder, `data/development.csv` combines Wells 1–3.
+`data/application_logs.csv` contains Wells 4–5, and
+`data/application_truth_for_evaluation_only.csv` stores their evaluation labels.
+`application_predictions.csv` contains selected-model predictions.
+`predictions_all_models.csv` contains all model predictions; `cv_ranking.csv`
+records the development ranking. Fitted models are stored in `models/`.
 
-```powershell
-.\.venv\Scripts\python.exe apply_models.py --input my_well_logs.csv --models outputs/models --output my_predictions.csv
+## 9. Verify a complete run
+
+From the project folder, using the environment with the installed dependencies:
+
+```bash
+python run_experiment.py
+python apply_models.py
+python -m unittest discover -s tests -v
 ```
 
-Only load trusted joblib files. The included trained models demonstrate the
-workflow; they are not calibrated for real wells. Synthetic data use simplified
-relations and do not establish geological validity or expected field performance.
-To train on real data, replace the `generate(...)` call in `run_experiment.py` with
-a validated, depth-aligned DataFrame with the same schema, and update the well
-lists in `synthetic_data.py` before repeating the whole evaluation.
+The integration checks read the default `outputs/` folder, so run these commands
+in order. The GitHub Actions workflow performs the same process on Linux and
+Windows. Repository owners and contributors with sufficient permissions can
+also use **Actions → Run five-well experiment → Run workflow**. Completed runs
+provide downloadable result artifacts when the workflow succeeds.
 
-## Implementation references
+## Troubleshooting
 
-- [MathWorks classifier options](https://www.mathworks.com/help/stats/choose-a-classifier.html)
-- [MathWorks regression options](https://www.mathworks.com/help/stats/choose-regression-model-options.html)
-- [scikit-learn bagging](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html)
-- [scikit-learn Gaussian processes](https://scikit-learn.org/stable/modules/gaussian_process.html)
-- [imbalanced-learn RUSBoost](https://imbalanced-learn.org/stable/references/generated/imblearn.ensemble.RUSBoostClassifier.html)
+- **ModuleNotFoundError:** install `requirements.txt` in the interpreter used by
+  Spyder's console, then restart the kernel.
+- **Missing saved results:** run `spyder_run_all.py` first or correct the output
+  folder setting. The downloaded `outputs_spyder/` folder also contains an example run.
+- **No plots in Spyder's Plots pane:** the scripts save figures to PNG/PDF and
+  display an HTML gallery instead of opening many plot windows.
+- **Different output location:** Spyder defaults to `outputs_spyder/`; the
+  command-line experiment defaults to `outputs/`.
+- **Using real laboratory data:** this requires adapting the training workflow
+  and depth matching. `apply_models.py` predicts only; it does not retrain models.
