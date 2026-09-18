@@ -1,4 +1,4 @@
-# well logs and laboratory data
+# Well logs and laboratory data
 
 This repository provides a reproducible Python example for predicting carbonate
 facies, porosity and permeability from well logs. It generates five synthetic
