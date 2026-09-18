@@ -1,0 +1,116 @@
+[
+  {
+    "number": 1,
+    "title": "Field location and depth map (synthetic schematic)",
+    "file": "figure_01.png",
+    "kind": "conceptual schematic"
+  },
+  {
+    "number": 2,
+    "title": "Stratigraphic context (conceptual schematic)",
+    "file": "figure_02.png",
+    "kind": "conceptual schematic"
+  },
+  {
+    "number": 3,
+    "title": "Well logs, facies and laboratory measurements",
+    "file": "figure_03.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 4,
+    "title": "Observations per well",
+    "file": "figure_04.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 5,
+    "title": "Facies counts",
+    "file": "figure_05.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 6,
+    "title": "Facies frequency by well",
+    "file": "figure_06.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 7,
+    "title": "Study workflow",
+    "file": "figure_07.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 8,
+    "title": "Neutron-density crossplot",
+    "file": "figure_08.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 9,
+    "title": "Predictor pairplot by facies",
+    "file": "figure_09.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 10,
+    "title": "Covariance and Pearson correlation",
+    "file": "figure_10.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 11,
+    "title": "Development confusion matrices",
+    "file": "figure_11.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 12,
+    "title": "Facies model comparison",
+    "file": "figure_12.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 13,
+    "title": "Facies depth tracks",
+    "file": "figure_13.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 14,
+    "title": "Porosity model point comparisons",
+    "file": "figure_14.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 15,
+    "title": "Porosity model comparison",
+    "file": "figure_15.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 16,
+    "title": "Porosity depth tracks",
+    "file": "figure_16.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 17,
+    "title": "Permeability model point comparisons",
+    "file": "figure_17.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 18,
+    "title": "Permeability model comparison",
+    "file": "figure_18.png",
+    "kind": "computed synthetic data"
+  },
+  {
+    "number": 19,
+    "title": "Permeability depth tracks",
+    "file": "figure_19.png",
+    "kind": "computed synthetic data"
+  }
+]
